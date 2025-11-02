@@ -1,0 +1,79 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+const int NUM_STUDENTS = 20;
+
+struct studentType {
+    string studentFName;
+    string studentLName;
+    int testScore;
+    char grade;
+};
+
+void readData(studentType students[], int size) {
+    for (int i = 0; i < size; ++i) {
+        cout << "Masukkan nama pertama, nama terakhir, score siswa " << i + 1 << ": ";
+        cin >> students[i].studentFName >> students[i].studentLName >> students[i].testScore;
+    }
+}
+
+void assignGrades(studentType students[], int size) {
+    for (int i = 0; i < size; ++i) {
+        int score = students[i].testScore;
+        if (score >= 85)
+            students[i].grade = 'A';
+        else if (score >= 70)
+            students[i].grade = 'B';
+        else if (score >= 55)
+            students[i].grade = 'C';
+        else if (score >= 40)
+            students[i].grade = 'D';
+        else
+            students[i].grade = 'E';
+    }
+}
+
+int findHighestScore(const studentType students[], int size) {
+    int highest = students[0].testScore;
+    for (int i = 1; i < size; ++i) {
+        if (students[i].testScore > highest)
+            highest = students[i].testScore;
+    }
+    return highest;
+}
+
+void printTopScorers(const studentType students[], int size, int highestScore) {
+    cout << "\nHighest Test Score: " << highestScore << endl;
+    cout << "Students with the highest score:\n";
+    for (int i = 0; i < size; ++i) {
+        if (students[i].testScore == highestScore) {
+            cout << left << setw(20)
+                 << students[i].studentLName + ", " + students[i].studentFName << endl;
+        }
+    }
+}
+
+void printAllStudents(const studentType students[], int size) {
+    cout << "\nStudent Results:\n";
+    cout << left << setw(25) << "Name" << setw(10) << "Score" << "Grade\n";
+    for (int i = 0; i < size; ++i) {
+        cout << left << setw(25)
+             << students[i].studentLName + ", " + students[i].studentFName
+             << setw(10) << students[i].testScore
+             << students[i].grade << endl;
+    }
+}
+
+int main() {
+    studentType students[NUM_STUDENTS];
+
+    readData(students, NUM_STUDENTS);
+    assignGrades(students, NUM_STUDENTS);
+    int highestScore = findHighestScore(students, NUM_STUDENTS);
+    printAllStudents(students, NUM_STUDENTS);
+    printTopScorers(students, NUM_STUDENTS, highestScore);
+
+    return 0;
+}
